@@ -1,0 +1,119 @@
+ {% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} | 
+
+{% for a in job %}
+
+  {{a.job_title}} 
+
+{% endfor %}
+
+
+{% endblock %}
+
+
+{% block content %}
+
+  {% if job %}
+  {% for a in job %} 
+  <section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <h1 class="display-4">{{a.job_title}}</h1>
+          <p class="lead">
+            <i class="fas fa-map-marker"></i></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+  <!-- Alert -->
+  {% include 'partials/_alerts.html' %}
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href=" {% url 'index' %} ">Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href=" {% url 'index' %} ">Listings</a>
+          </li>
+          <li class="breadcrumb-item active"> {{a.job_title}} </li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Listing -->
+  <section id="listing" class="py-4">
+    <div class="container">
+      <a href=" {% url 'index' %} " class="btn btn-light mb-4">Back To Listings</a>
+      <div class="row">
+        <div class="col-md-9">
+          <!-- Home Main Image -->
+          <img src="{{a.icon.url}}" alt="" class="img-main img-fluid mb-3">
+          <!-- Captian -->
+          <li class="list-group-item text-secondary">
+              
+              <span class=""> {{a.description}}
+          </span>
+          </li>
+          <!-- Fields -->
+          <div class="row mb-5 fields">
+            <div class="col-md-6">
+              <ul class="list-group list-group-flush">
+                
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-money-bill-alt"></i> Company Name:
+                  <span class="float-right"> {{ a.company_name }} </span>
+                </li>
+                
+                <li class="list-group-item text-secondary">
+                  <i class="fas ">&#xf51b;</i> Experience(yrs):
+                  <span class="float-right"> {{a.experience}}
+                  </span>
+                </li>
+
+                <li class="list-group-item text-secondary">
+                  <i class="fas ">&#xf073;</i> Job Type:
+                  <span class="float-right"> {{a.job_type}}
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">
+                  <i class="fas">&#xf1ad;</i> Destination:
+                  <span class="float-right"> {{a.destination}} </span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fas">&#xf002;</i> Job Link:
+                  <span class="float-right"> {{a.job_link}} </span>
+                </li>
+
+                <li class="list-group-item text-secondary">
+                  <i class="fas ">&#xf073;</i> Listing Date:
+                  <span class="float-right"> {{a.submission_date | timesince}}
+                  </span>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+
+               
+        
+    </div>
+  </section>
+
+      {% endfor %}
+{% endif %}
+
+{% endblock %}

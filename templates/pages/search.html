@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} | Search Results {% endblock %}
+
+
+{% block content %}
+
+  <section id="showcase-inner" class="showcase-search text-white py-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <form action="{% url 'search' %}">
+            <!-- Form Row 1  -->
+            <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">startup</label>
+                <input type="text" name="startup" class="form-control" placeholder="Startups name" >
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">jobs</label>
+                <input type="text" name="job" class="form-control" placeholder="Job Title" >
+              </div>
+
+              
+            </div>
+            
+            
+            <button style="width: 65%;" class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'index' %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="">Browse Listings</a>
+          </li>
+          <li class="breadcrumb-item active"> Search Results</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Listings -->
+  <section id="listings" class="py-4">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-12">
+          <h2 id="jobs">Startups</h2><br>
+        </div>
+
+      </div>
+      <div class="row">
+
+        {% if startups %}
+          {% for startup in startups %}
+          <div class="col-md-4 py-2">
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="{{startup.image.url}}" alt="{{startup.product_name}}">
+          <div class="card-body">
+            
+            <hr><h5 class="card-title">{{startup.product_name}}</h5>
+            <p class="card-text">{{startup.description}}</p>
+            <hr>
+            <a href="{% url 'listing' startup.id %}" class="btn btn-info">More Info</a>
+          </div>
+        </div>
+      </div>
+
+          {% endfor %}
+
+        {% else %}
+          <p>No listings available yet.</p>
+        {% endif %}
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h2 id="jobs">Jobs</h2><br>
+        </div>
+      </div>
+      <div class="row">
+      
+        {% if joblists %}
+          {% for job in joblists %}
+          <div class="col-md-12 py-2">
+       <div class="card" style="width: 65%;">
+            <div class="row no-gutters">
+                <div class="col-sm-2">
+                    <img class="card-img" src="/images/defaultimg.png" alt="{{job.job_title}}">
+                </div>
+                <div class="col-sm-10">
+                    <div class="card-body">
+                        <h5 class="card-title">{{job.job_title}}</h5>
+                        <p class="card-text"> {{job.description}} </p>
+                        <hr>
+                        <a href="{% url 'joblisting' job.id %}" class="btn btn-info">View Job</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+          {% endfor %}
+
+        {% else %}
+          <p>No listings available yet.</p>
+        {% endif %}
+      </div>
+
+      </div>
+    
+  </section>
+
+
+{% endblock %}

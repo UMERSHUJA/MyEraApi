@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %} | Welcome {% endblock %}
+
+{% block content %} 
+<div class="container">
+      
+      <div class="row mt-5">
+      <h2>Features</h2>
+
+      <div class="col-md-12">
+      
+      <ul style="list-style-type: none; margin: 0; padding: 0">
+      <li>
+            <a style="display: block; padding: 8px 16px; text-decoration: none;" href="#home">
+            Latest Startups
+            </a>
+      </li>
+      <li><a style="display: block; padding: 8px 16px; text-decoration: none;" href="#jobs">Latest Jobs</a></li>
+      </ul>
+      </div>
+      </div>
+      <hr>
+
+
+
+      <div class="row">
+        <h2 class="">Trending Section</h2>
+      </div>
+
+        <div class="row">
+
+        {% if trendings %}
+
+          {% for trending in trendings %}
+      
+
+      <div class="col-md-4 py-2">
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="{{trending.image.url}}" alt="{{startup.product_name}}">
+          <div class="card-body">
+            
+            <hr><h5 class="card-title">{{trending.product_name}}</h5>
+            <p class="card-text">{{trending.description}}</p>
+            <hr>
+            <a href="{% url 'listing' trending.id %}" class="btn btn-info">More Info</a>
+          </div>
+        </div>
+      </div>
+
+          {% endfor %}
+
+        {% else %}
+          <p>No listings available yet.</p>
+        {% endif %}
+      </div>
+
+
+      <hr>
+      <div class="row">
+      	<h2 class="">Latest Startups</h2>
+      </div>
+
+      	<div class="row">
+
+      	{% if startups %}
+
+      		{% for startup in startups %}
+      
+
+      <div class="col-md-4 py-2">
+				<div class="card" style="width: 18rem;">
+				  <img class="card-img-top" src="{{ startup.image.url }}" alt="{{startup.product_name}}">
+				  <div class="card-body">
+				    
+				    <hr><h5 class="card-title">{{startup.product_name}}</h5>
+				    <p class="card-text">{{startup.description}}</p>
+				    <hr>
+				    <a href="{% url 'listing' startup.id %}" class="btn btn-info">More Info</a>
+				  </div>
+				</div>
+			</div>
+
+      		{% endfor %}
+
+      	{% else %}
+      		<p>No listings available yet.</p>
+      	{% endif %}
+      </div>
+
+      <hr>
+
+      <div class="row">
+      	<h2 id="jobs" class="text-center">Latest Jobs</h2><br>
+      </div>
+      <div class="row">
+      
+      	{% if joblists %}
+      		{% for job in joblists %}
+      		<div class="col-md-12 py-2">
+	     <div class="card" style="width: 75%;">
+            <div class="row no-gutters">
+                <div class="col-sm-2">
+                    <img class="card-img" src="{{job.icon.url}}" alt="{{job.job_title}}">
+                </div>
+                <div class="col-sm-10">
+                    <div class="card-body">
+                        <h5 class="card-title">{{job.job_title}}</h5>
+                        <p class="card-text"> {{job.description}} </p>
+                        <hr>
+                        <a href="{% url 'joblisting' job.id %}" class="btn btn-info">View Job</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+			</div>
+
+      		{% endfor %}
+
+      	{% else %}
+      		<p>No listings available yet.</p>
+      	{% endif %}
+      </div>
+      
+
+
+
+</div>
+
+{% endblock %}

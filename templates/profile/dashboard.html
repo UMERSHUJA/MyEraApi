@@ -1,0 +1,635 @@
+{% extends 'base.html' %}
+
+
+{% block title %} | User Dashboard {% endblock %}
+
+
+{% block content %}
+<section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <h1 class="display-4">User Dashboard</h1>
+          <p class="lead">Manage your Account</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'index' %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item active"> Dashboard</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+<!-- Alert -->
+{% include 'partials/_alerts.html' %}
+
+  <section id="dashboard" class="py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Welcome {{user.first_name}} </h2>
+          <hr>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+          
+          <ul class="nav nav-tabs">
+
+
+          <li class="active" style="padding: 5px;">
+            <a data-toggle="tab" href="#new">
+              <h5>New</h5>
+            </a>
+          </li>
+          
+          
+          <li style="padding: 5px;">
+            <a data-toggle="tab" href="#submitted"> 
+              <h5>Submitted</h5>
+            </a>
+          </li>
+          
+
+          <li style="padding: 5px;">
+            <a data-toggle="tab" href="#published"> 
+              <h5>published</h5>
+            </a>
+          </li>
+          </ul>
+
+          <div class="tab-content" >
+            <div id="new" class="tab-pane fade in">
+              <br>
+              
+           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startupModal">
+            Add new Startups
+          </button>
+            
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#jobModal">
+            Add new jobs
+          </button>
+
+
+            </div>
+          <div id="submitted" class="tab-pane fade ">
+
+            
+
+         
+
+      <ul class="nav nav-tabs">
+
+
+          <li class="active" style="padding: 25px;">
+            <a data-toggle="tab" href="#requested_startup">
+              <h6>Requested Startup</h6>
+            </a>
+          </li>
+          
+          
+          <li style="padding: 25px;">
+            <a data-toggle="tab" href="#requested_joblist"> 
+              <h6>Requested Joblist</h6>
+            </a>
+          </li>
+
+
+          </ul>
+
+          <!-- inner Tabs content -->
+
+
+  <div class="tab-content">
+    <div id="requested_startup" class="tab-pane fade in">
+        
+         <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Sr.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if 'startups' %}
+                {% for startup in startups %}
+                  <tr>
+                    <td>{{startup.id}}</td>
+                    <td>{{startup.product_name}}</td>
+                    <td>{{startup.description}}</td>
+                    <td>
+                      <form action="{% url 'editstartup' startup.id %}" method="GET">
+                        <button type="submit" class="btn-primary btn-sm">Edit</button>
+                      </form>
+                    </td>
+                    <td>
+                      <form action="{% url 'delstartup' startup.id %}">
+                    <button type="submit" class="btn-danger btn-sm">Delete</button>
+                    </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+              
+              {% endif %}
+            </tbody>
+          </table>
+
+      
+    </div>
+    <div id="requested_joblist" class="tab-pane fade">
+      
+       <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Sr.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if 'joblists' %}
+                {% for joblist in joblists %}
+                  <tr>
+                    <td>{{joblist.id}}</td>
+                    <td>{{joblist.job_title}}</td>
+                    <td>{{joblist.description}}</td>
+                    <td>
+                      <form action="{% url 'editjob' joblist.id %}">
+                      <button type="submit" class="btn-primary btn-sm">Edit</button>
+                      </form>
+                    </td>
+                    <td>
+                      <form action="{% url 'deljob' joblist.id %}">
+                        <button type="submit" class="btn-danger btn-sm">Delete</button>
+                    </form>
+                  </td>
+                  </tr>
+                {% endfor %}
+              
+              {% endif %}
+            </tbody>
+          </table>
+
+
+    </div>
+    
+  </div>
+
+
+
+          <!-- ends inner tabs -->
+
+
+
+
+
+          </div>
+          <div id="published" class="tab-pane fade ">
+
+
+            <ul class="nav nav-tabs">
+
+
+          <li class="active" style="padding: 25px;">
+            <a data-toggle="tab" href="#published_startup">
+              <h6>Published Startup</h6>
+            </a>
+          </li>
+          
+          
+          <li style="padding: 25px;">
+            <a data-toggle="tab" href="#published_joblist"> 
+              <h6>Published Joblist</h6>
+            </a>
+          </li>
+
+
+          </ul>
+
+          <!-- inner Tabs content -->
+
+
+  <div class="tab-content">
+    <div id="published_startup" class="tab-pane fade in">
+  
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Sr.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              {% if 'startup_published' %}
+                {% for start_pub in startup_published %}
+                  <tr>
+                    <td>{{start_pub.id}}</td>      
+                    <td>{{start_pub.product_name}}</td>
+                    <td>{{start_pub.description}}</td>
+                  </tr>
+                {% endfor %}
+              
+              {% endif %}
+
+              
+
+
+            </tbody>
+          </table>     
+  
+    </div>
+
+    <div id="published_joblist" class="tab-pane fade">
+      
+       
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Sr.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              {% if 'joblist_published' %}
+                {% for job_pub in joblist_published %}
+                  <tr>
+                    <td>{{job_pub.id}}</td>      
+                    <td>{{job_pub.job_title}}</td>
+                    <td>{{job_pub.description}}</td>
+                    
+                  </tr>
+                {% endfor %}
+              
+              {% endif %}
+
+              
+
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+    </div>
+    
+  </div>
+
+
+
+          <!-- ends inner tabs -->
+
+
+
+
+
+
+          </div>
+          
+          
+
+        </div>
+
+
+
+        </div>
+      </div>
+    
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </section>
+<!-- startup modal -->
+      <div class="modal fade" id="startupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add new Startup</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                  <form action="{% url 'startup' %}" method="POST">
+                    {% csrf_token %}
+
+                    {% if user.is_authenticated %}
+                      <input type="hidden" name="user_id" value="{{user.id}}">
+                    {% else %}
+                      <input type="hidden" name="user_id" value="0">
+                    {% endif %}
+
+
+                  <div class="form-group">
+                    <label for="product_name">Product Name</label>
+                    <input type="text" name="product_name" class="form-control" required>
+                  </div>
+
+                <div class="form-group">
+                  <label for="description">Description</label><br>
+                  <textarea rows="5"  class="form-control" name="description"></textarea>
+                  
+                </div>
+
+                <div class="form-group">
+                  <label for="image">Product Image:</label>
+                  <input type="file" name="image" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="price">Prices</label>
+                  <input type="number" name="price" min="0" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="facebook">Facebook</label>
+                  <input type="text" name="facebook" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="twitter">Twitter</label>
+                  <input type="text" name="twitter" class="form-control" required>
+                </div>
+                
+
+                <div class="form-group">
+                  <label for="sponsered">is_sponsered</label>
+                  <input type="checkbox" name="sponsered">
+                </div>
+              
+                <div class="form-group">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+
+              </form>
+
+                  
+                  
+                </div>
+                
+              </div>
+            </div>
+          </div>
+
+<!-- end startup modal -->
+
+
+
+<!-- start job modal -->
+
+
+  <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add new job</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                  <form action="{% url 'joblist' %}" method="POST">
+                    {% csrf_token %}
+
+                    {% if user.is_authenticated %}
+                      <input type="hidden" name="user_id" value="{{user.id}}">
+                    {% else %}
+                      <input type="hidden" name="user_id" value="0">
+                    {% endif %}
+                  <div class="form-group">
+                  <label for="job_title">Job title</label>
+                  <input type="text" name="job_title" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="destination">Description</label><br>
+                  <textarea rows="5" name="description" class="form-control"></textarea>
+                  
+                </div>
+
+                <div class="form-group">
+                  <label for="exp">Experience Req(yrs):</label>
+                  <input type="number" name="experience" min="0" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="company_name">Company name</label>
+                  <input type="text" name="company_name" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="image">Image</label>
+                  <input type="file" name="image" class="form-control" required>
+                </div>
+                
+                
+                <div class="form-group">
+                  <label for="job_type">Job type</label>
+
+                  <select required="required" name="job_type" class="form-control">
+                    <option value="#" disabled="disabled">Select the job type</option>
+                    <option value="remote">
+                      Remote
+                    </option>
+                    <option value="physical">
+                      Physical
+                    </option>
+                  </select>
+
+                </div>
+                
+                <div class="form-group">
+                  <label for="destination">Destination</label>
+                  <input type="text" name="destination" class="form-control" required>
+                </div>
+                
+
+                <div class="form-group">
+                  <label for="job_link">Job link</label>
+                  <input type="url" name="job_link" class="form-control">
+                </div>
+
+
+                <div class="form-group">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+
+              </form>
+
+                  
+   
+          
+              
+                  
+                </div>
+                
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+<!-- end job modal -->
+
+
+<!-- start editjob modal -->
+
+
+  <div class="modal fade" id="editjobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Update your job</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                  <form action="{% url 'joblist' %}" method="POST">
+                    {% csrf_token %}
+
+                  <div class="form-group">
+                  <label for="job_title">Job title</label>
+                  <input type="text" name="job_title" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="destination">Description</label><br>
+                  <textarea rows="5" name="description" class="form-control"></textarea>
+                  
+                </div>
+
+                <div class="form-group">
+                  <label for="exp">Experience Req(yrs):</label>
+                  <input type="number" name="experience" min="0" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="company_name">Company name</label>
+                  <input type="text" name="company_name" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="image">Image</label>
+                  <input type="file" name="image" class="form-control" required>
+                </div>
+                
+                
+                <div class="form-group">
+                  <label for="job_type">Job type</label>
+
+                  <select required="required" name="job_type" class="form-control">
+                    <option value="#" disabled="disabled">Select the job type</option>
+                    <option value="remote">
+                      Remote
+                    </option>
+                    <option value="physical">
+                      Physical
+                    </option>
+                  </select>
+
+                </div>
+                
+                <div class="form-group">
+                  <label for="destination">Destination</label>
+                  <input type="text" name="destination" class="form-control" required>
+                </div>
+                
+
+                <div class="form-group">
+                  <label for="job_link">Job link</label>
+                  <input type="url" name="job_link" class="form-control">
+                </div>
+
+
+                <div class="form-group">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+
+              </form>
+
+                  
+   
+          
+              
+                  
+                </div>
+                
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+<!-- end editjob modal -->
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+

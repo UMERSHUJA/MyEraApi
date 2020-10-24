@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- start editjob modal -->
+
+
+                  {% if jobs %}
+                  {% for job in jobs %}
+
+        <section class="bg-light py-5">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6 mx-auto">
+            <div class="card">
+                      <div class="card-header bg-primary text-white">
+                        <h4>
+                          <i class="fas fa-user-plus"></i> Update Job
+                        </h4>
+                      </div>
+                      <div class="card-body">
+                    
+
+                  <form action="{% url 'changeoccur' job.id %}" method="POST">
+                    {% csrf_token %}
+
+                  <div class="form-group">
+                  <label for="job_title">Job title</label>
+                  <input type="text" name="job_title" value="{{job.job_title}}" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="destination">Description</label><br>
+                  <input type="text" name="description" value="{{job.description}}"  class="form-control" required>
+
+                </div>
+
+                <div class="form-group">
+                  <label for="exp">Experience Req(yrs):</label>
+                  <input type="number" name="experience" value="{{job.experience}}" min="0" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="company_name">Company name</label>
+                  <input type="text" name="company_name" value="{{job.company_name}}" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="image">Image</label>
+                  <input type="file" name="image" class="form-control" required>
+                </div>
+                
+                
+                <div class="form-group">
+                  <label for="job_type">Job type</label>
+
+                  <select required="required" name="job_type" value="{{job.job_type}}" class="form-control">
+                    <option value="#" disabled="disabled">Select the job type</option>
+                    <option value="remote">
+                      Remote
+                    </option>
+                    <option value="physical">
+                      Physical
+                    </option>
+                  </select>
+
+                </div>
+                
+                <div class="form-group">
+                  <label for="destination">Destination</label>
+                  <input type="text" value=" {{job.destination}} " name="destination" class="form-control" required>
+                </div>
+                
+
+                <div class="form-group">
+                  <label for="job_link">Job link</label>
+                  <input type="url" name="job_link" value="{{job.job_link}}" class="form-control">
+                </div>
+
+                
+
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">Update Job</button>
+                </div>
+
+
+              </form>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+
+                  {% endfor %}
+   {% endif %}
+          
+              
+                  
+                
+          
+
+
+
+
+
+
+
+{% endblock  %}

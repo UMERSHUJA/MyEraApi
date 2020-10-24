@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} | 
+
+{% for a in startup %}
+
+  {{a.product_name}} 
+
+{% endfor %}
+
+
+{% endblock %}
+
+
+{% block content %}
+
+  {% if startup %}
+  {% for a in startup %} 
+  <section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <h1 class="display-4">{{a.product_name}}</h1>
+          <p class="lead">
+            <i class="fas fa-map-marker"></i></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+  <!-- Alert -->
+  {% include 'partials/_alerts.html' %}
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href=" {% url 'index' %} ">Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href=" {% url 'index' %} ">Listings</a>
+          </li>
+          <li class="breadcrumb-item active"> {{a.product_name}} </li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Listing -->
+  <section id="listing" class="py-4">
+    <div class="container">
+      <a href=" {% url 'index' %} " class="btn btn-light mb-4">Back To Listings</a>
+      <div class="row">
+        <div class="col-md-9">
+          <!-- Home Main Image -->
+          <img src="{{a.image.url}}" alt="" class="img-main img-fluid mb-3">
+          <!-- Captian -->
+          <li class="list-group-item text-secondary">
+              
+              <span class=""> {{a.description}}
+          </span>
+          </li>
+          <!-- Fields -->
+          <div class="row mb-5 fields">
+            <div class="col-md-6">
+              <ul class="list-group list-group-flush">
+                
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-money-bill-alt"></i> Asking Price:
+                  <span class="float-right">$ {{ a.prices }} </span>
+                </li>
+                
+                <li class="list-group-item text-secondary">
+                  <i class="fas ">&#xf073;</i> Listing Date:
+                  <span class="float-right"> {{a.submission_date | timesince}}
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">
+                  <i class="fas">&#xf230;</i> Facebook:
+                  <span class="float-right"> {{a.facebook}} </span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fas">&#xf099;</i> Twitter:
+                  <span class="float-right"> {{a.twitter}} </span>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+
+               
+        
+    </div>
+  </section>
+
+      {% endfor %}
+{% endif %}
+
+{% endblock %}
